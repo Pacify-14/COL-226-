@@ -51,6 +51,8 @@ let rec string_of_expr (e: expr) : string =
 | Func (f, args) -> f ^ "(" ^ String.concat ", " (List.map string_of_expr args ) ^ ")"
 
 | Block(exprs) -> "{" ^ String.concat "; " (List.map string_of_expr exprs) ^ " }"
+| ForLoop (var, start_expr, end_expr, body) -> "for "^var ^ " = " ^ string_of_expr start_expr ^ " ... " ^ string_of_expr end_expr ^ " { " ^ String.concat "; " (List.map string_of_expr body) ^ " }"
+| WhileLoop (cond, body) -> "while " ^ string_of_expr cond ^ " { " ^ String.concat "; " (List.map string_of_expr body) ^ " }" 
   | _ -> failwith "precondition violated"
 
 let () =

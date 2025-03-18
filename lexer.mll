@@ -55,7 +55,9 @@ rule read =
         | ">"             { GT }
         | "!="            { NE }
         | "="             { EQUAL }
- 
+        | "for"     {FOR}
+        | "while" {WHILE}
+        | "..." {DOT_3}                 
  
         | ident as id {IDENT id}
         | float_literal as fl {FLOAT (float_of_string fl) }

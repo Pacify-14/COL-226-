@@ -25,4 +25,6 @@ type expr =
   | Var of string
   | Func of string * expr list
   | Paren of expr
-  | Block of expr list 
+  | Block of expr list
+  | WhileLoop of expr * expr list
+  | ForLoop of string * expr * expr  *expr list
