@@ -19,6 +19,7 @@ open Ast
 %token <float> FLOAT 
   %token <string> STRING
 %token <string> IDENT
+
 %start prog
 %type <Ast.expr> prog
 
