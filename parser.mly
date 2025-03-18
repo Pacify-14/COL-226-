@@ -3,7 +3,7 @@ open Ast
 %}
 
 %token <int> INT
-%token IF THEN ELSE FOR WHILE 
+%token IF THEN ELSE FOR WHILE DOT_3 
 %token TRUE FALSE
 %token INPUT PRINT  
 %token VECTOR MATRIX 
@@ -32,6 +32,7 @@ open Ast
 %left LT LE GT GE
 %left PLUS MINUS
 %left MULT DIV MOD
+%nonassoc WHILE FOR  
 %nonassoc IF THEN ELSE
 
 
@@ -67,6 +68,8 @@ expr:
 | expr GE expr {Binop(Ge, $1 , $3)}
 | expr NE expr {Binop(Ne, $1 , $3)}
 | expr EQUAL expr {Binop(Eq, $1 , $3)}
+| WHILE expr LBRACE expr_list RBRACE { WhileLoop($2, ($4)) }
+| FOR IDENT ASSIGN INT DOT_3 INT LBRACE expr_list RBRACE { ForLoop($2, (Int $4),(Int $6), $8) }
 
 args: 
     expr { [$1] }
