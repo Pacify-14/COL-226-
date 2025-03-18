@@ -19,7 +19,7 @@ let int_literal = digit+
 
 rule read =
   parse
-    [' ' '\t' '\n']+ {read lexbuf}
+     whitespace {read lexbuf}
         | line_1_com {read lexbuf}
         | mult_comm {read lexbuf}                
         | "+" {PLUS}               
@@ -40,5 +40,6 @@ rule read =
         | ":=" {ASSIGN}
         | "!" {NOT} 
         | "&&" {AND}
-        | "||" {OR}          
+        | "||" {OR}         
+        | ident as id {IDENT id}                 
         | eof { EOF }
