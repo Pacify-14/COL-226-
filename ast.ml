@@ -20,3 +20,5 @@ type expr =
   | Boolop of boolop * expr * expr
   | IfElse of expr * expr * expr 
   | Var of string
+  | Func of string * expr list
+  | Paren of expr

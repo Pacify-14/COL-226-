@@ -54,3 +54,17 @@ expr:
 | IF expr THEN expr ELSE expr { IfElse($2, $4, $6) } 
 | IDENT { Var $1 } 
 | IDENT ;ASSIGN ; expr { Assign($1, $3) };
+  | LPAREN expr RPAREN { Paren($2) }
+  | IDENT LPAREN args RPAREN { Func($1, $3)}
+
+args: 
+    expr { [$1] }
+  | expr COMMA args { $1 :: $3 } 
+ 
+expr_list:     
+  | expr SEMICOLON expr_list { $1 :: $3 }
+  | expr SEMICOLON { [$1] };
+  | expr COMMA expr_list { $1 :: $3 }
+  | expr { [$1] }
+  ;
+  

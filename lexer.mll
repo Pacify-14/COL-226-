@@ -41,5 +41,14 @@ rule read =
         | "!" {NOT} 
         | "&&" {AND}
         | "||" {OR}         
-        | ident as id {IDENT id}                 
+        | "(" { LPAREN }                
+        | ")" { RPAREN }                
+        | "["         { LBRACKET }
+        | "]"             { RBRACKET }
+        | "{"             { LBRACE }
+        | "}"             { RBRACE }
+        | ";"             { SEMICOLON }
+        | ","             { COMMA }
+        | ident as id {IDENT id}
         | eof { EOF }
+                         
