@@ -32,8 +32,9 @@ let rec string_of_expr (e: expr) : string =
   | Boolop (And, e1, e2) -> "Boolop(And, " ^ string_of_expr e1 ^ ", " ^ string_of_expr e2 ^ ")"
 | Boolop (Or, e1, e2) -> "Boolop(Or, " ^ string_of_expr e1 ^ ", " ^ string_of_expr e2 ^ ")"
 | Boolop (Not, e1, e2) -> "Boolop(Not, " ^ string_of_expr e1 ^ ", " ^ string_of_expr e2 ^ ")"
-
-
+| IfElse (cond, e1, e2) -> "if " ^ string_of_expr cond ^ " then " ^ string_of_expr e1 ^ " else "^ string_of_expr e2
+| Var id -> id
+| Assign(var , value) -> "Assign(" ^ var ^ " ," ^ string_of_expr value ^ ")"
   | _ -> failwith "precondition violated"
 
 let () =

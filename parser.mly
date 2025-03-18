@@ -22,6 +22,8 @@ open Ast
 %start prog
 %type <Ast.expr> prog
 
+                 
+%right ASSIGN
 %left OR
 %left AND
 %left NOT
@@ -48,4 +50,7 @@ expr:
 | FALSE { Bool false }
 | expr AND expr {Boolop (And, $1, $3)}
 | expr OR expr { Boolop (Or, $1, $3) }
-| NOT expr {Boolop (Not, $2, Bool false) } 
+| NOT expr {Boolop (Not, $2, Bool false) }
+| IF expr THEN expr ELSE expr { IfElse($2, $4, $6) } 
+| IDENT { Var $1 } 
+| IDENT ;ASSIGN ; expr { Assign($1, $3) };

@@ -18,3 +18,5 @@ type expr =
   | Assign of string * expr      
   | Bool of bool
   | Boolop of boolop * expr * expr
+  | IfElse of expr * expr * expr 
+  | Var of string
