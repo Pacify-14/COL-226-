@@ -39,6 +39,7 @@ let rec string_of_expr (e: expr) : string =
 | Assign(var , value) -> "Assign(" ^ var ^ " ," ^ string_of_expr value ^ ")"
 | Paren e -> "(" ^ string_of_expr e ^ ")"
 | Func (f, args) -> f ^ "(" ^ String.concat ", " (List.map string_of_expr args ) ^ ")"
+| Block(exprs) -> "{" ^ String.concat "; " (List.map string_of_expr exprs) ^ " }"
   | _ -> failwith "precondition violated"
 
 let () =

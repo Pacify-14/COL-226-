@@ -22,3 +22,4 @@ type expr =
   | Var of string
   | Func of string * expr list
   | Paren of expr
+  | Block of expr list 
