@@ -4,6 +4,7 @@ type bop =
   | Mul
   | Div
   | Mod
+  | Lt | Gt | Le | Ge | Ne | Eq
 
 type boolop = 
   And 
@@ -12,6 +13,8 @@ type boolop =
 
 type expr =
   | Int of int 
+  | Float of float
+  | String of string
   | Binop of bop * expr * expr 
   | Inp of string
   | Print of string 

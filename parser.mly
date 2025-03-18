@@ -43,6 +43,8 @@ prog:
 
 expr:
   INT { Int $1 };;
+| STRING { String $1 }
+| FLOAT { Float $1 }
 | expr PLUS expr {Binop(Add, $1, $3)};;
 | expr MINUS expr {Binop(Sub, $1, $3)};;
 | expr MULT expr {Binop(Mul, $1, $3)};;
@@ -59,6 +61,12 @@ expr:
 | LPAREN expr RPAREN { Paren($2) }
 | IDENT LPAREN args RPAREN { Func($1, $3)}
 | LBRACE expr_list RBRACE { Block($2) }
+| expr LT expr {Binop(Lt, $1 , $3)}
+| expr GT expr {Binop(Gt, $1 , $3)}
+| expr LE expr {Binop(Le, $1 , $3)}
+| expr GE expr {Binop(Ge, $1 , $3)}
+| expr NE expr {Binop(Ne, $1 , $3)}
+| expr EQUAL expr {Binop(Eq, $1 , $3)}
 
 args: 
     expr { [$1] }
