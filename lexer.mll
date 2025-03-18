@@ -49,6 +49,18 @@ rule read =
         | "}"             { RBRACE }
         | ";"             { SEMICOLON }
         | ","             { COMMA }
+        | "<="            { LE }
+        | ">="            { GE }
+        | "<"             { LT }
+        | ">"             { GT }
+        | "!="            { NE }
+        | "="             { EQUAL }
+ 
+ 
         | ident as id {IDENT id}
+        | float_literal as fl {FLOAT (float_of_string fl) }
+        |string_literal as s {
+          let len = String.length s in 
+          STRING (String.sub s 1 (len - 2))
+        }        
         | eof { EOF }
-                         

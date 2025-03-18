@@ -25,11 +25,21 @@ let parse s =
 let rec string_of_expr (e: expr) : string =
   match e with
   | Int i -> "Int(" ^ string_of_int i ^ ")"
+  | Float fl -> "Float(" ^ string_of_float fl ^ ")"
+  | String s -> "String(" ^ s ^ ")"
+  | Bool false -> "Bool(false)"
+  | Bool true -> "Bool(true)"
   | Binop (Add, e1, e2) -> "Binop(+, " ^ string_of_expr e1 ^ ", " ^ string_of_expr e2 ^ ")"
   | Binop (Sub, e1, e2) -> "Binop(-," ^ string_of_expr e1 ^ ", " ^ string_of_expr e2 ^ ")"
   | Binop (Mul, e1, e2) -> "Binop(*," ^ string_of_expr e1 ^ ", " ^ string_of_expr e2 ^ ")"
   | Binop (Mod, e1, e2) -> "Binop(%," ^ string_of_expr e1 ^ ", " ^ string_of_expr e2 ^ ")" 
   | Binop (Div, e1, e2) -> "Binop(/," ^ string_of_expr e1 ^ ", " ^ string_of_expr e2 ^ ")" 
+  | Binop (Lt, e1, e2) -> "Binop(<," ^ string_of_expr e1 ^ ", " ^ string_of_expr e2 ^ ")"
+  | Binop (Gt, e1, e2) -> "Binop(>," ^ string_of_expr e2 ^ ", " ^ string_of_expr e2 ^ ")"
+  | Binop (Le, e1, e2) -> "Binop(<=," ^ string_of_expr e2 ^ ", " ^ string_of_expr e2 ^ ")"
+  | Binop (Ge, e1, e2) -> "Binop(>=," ^ string_of_expr e2 ^ ", " ^ string_of_expr e2 ^ ")"
+  | Binop (Ne, e1, e2) -> "Binop(!=," ^ string_of_expr e2 ^ ", " ^ string_of_expr e2 ^ ")"
+  | Binop (Eq, e1, e2) -> "Binop(=," ^ string_of_expr e2 ^ ", " ^ string_of_expr e2 ^ ")"
 
   | Boolop (And, e1, e2) -> "Boolop(And, " ^ string_of_expr e1 ^ ", " ^ string_of_expr e2 ^ ")"
 | Boolop (Or, e1, e2) -> "Boolop(Or, " ^ string_of_expr e1 ^ ", " ^ string_of_expr e2 ^ ")"
@@ -39,6 +49,7 @@ let rec string_of_expr (e: expr) : string =
 | Assign(var , value) -> "Assign(" ^ var ^ " ," ^ string_of_expr value ^ ")"
 | Paren e -> "(" ^ string_of_expr e ^ ")"
 | Func (f, args) -> f ^ "(" ^ String.concat ", " (List.map string_of_expr args ) ^ ")"
+
 | Block(exprs) -> "{" ^ String.concat "; " (List.map string_of_expr exprs) ^ " }"
   | _ -> failwith "precondition violated"
 
