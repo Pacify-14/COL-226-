@@ -64,7 +64,7 @@ let rec string_of_expr (e: expr) : string =
   | VecDim e -> "VecDim(" ^ string_of_expr e ^ ")"
   | Inp e -> "Inp(" ^ string_of_expr e ^ ")"
   | Print e -> "Print(" ^ string_of_expr e ^ ")"
-
+  | Vec_ix(var, exp) -> var ^ "[" ^ string_of_expr exp ^ "]"
 let rec repl () =
   try
     let input = read_line () in

@@ -65,7 +65,7 @@ rule read =
        | "Vector"        {VECTOR }
        | "Matrix"        {MATRIX}
        | "det_mat"       {DETERMINANT}
- 
+        
         | ident as id {IDENT id}
         | float_literal as fl {FLOAT (float_of_string fl) }
         |string_literal as s {

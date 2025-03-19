@@ -35,3 +35,4 @@ type expr =
   | Dim1 of expr
   | Dim2 of expr
   | VecDim of expr
+  | Vec_ix of string * expr

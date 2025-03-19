@@ -84,7 +84,7 @@ expr:
   | DETERMINANT LPAREN expr RPAREN { Det($3) }
   | INPUT LPAREN expr RPAREN { Inp($3) } 
   | PRINT LPAREN expr RPAREN { Print($3) }
-
+  | IDENT LBRACKET expr RBRACKET { Vec_ix($1 ,$3) }
 args: expr_list_comma 
     expr { $1 }
   | expr COMMA args { $1 :: $3 } 
