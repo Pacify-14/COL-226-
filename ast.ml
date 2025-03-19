@@ -28,3 +28,10 @@ type expr =
   | Block of expr list
   | WhileLoop of expr * expr list
   | ForLoop of string * expr * expr  *expr list
+  | Vector of expr list
+  | Matrix of expr list list
+  | Transpose of expr
+  | Det of expr
+  | Dim1 of expr
+  | Dim2 of expr
+  | VecDim of expr
