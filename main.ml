@@ -62,7 +62,8 @@ let rec string_of_expr (e: expr) : string =
   | Dim1 e -> "Dim1(" ^ string_of_expr e ^ ")"
   | Dim2 e -> "Dim2(" ^ string_of_expr e ^ ")"
   | VecDim e -> "VecDim(" ^ string_of_expr e ^ ")"
-  | _ -> failwith "precondition violated"
+  | Inp e -> "Inp(" ^ string_of_expr e ^ ")"
+  | Print e -> "Print(" ^ string_of_expr e ^ ")"
 
 let rec repl () =
   try
