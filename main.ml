@@ -46,7 +46,7 @@ let rec string_of_expr (e: expr) : string =
 | Boolop (Not, e1, e2) -> "Boolop(Not, " ^ string_of_expr e1 ^ ", " ^ string_of_expr e2 ^ ")"
 | IfElse (cond, e1, e2) -> "if " ^ string_of_expr cond ^ " then " ^ string_of_expr e1 ^ " else "^ string_of_expr e2
 | Var id -> id
-| Assign(var , value) -> "Assign(" ^ var ^ " ," ^ string_of_expr value ^ ")"
+| Assign(var , value) -> "Assign(" ^string_of_expr var ^ " ," ^ string_of_expr value ^ ")"
 | Paren e -> "(" ^ string_of_expr e ^ ")"
 | Func (f, args) -> f ^ "(" ^ String.concat ", " (List.map string_of_expr args ) ^ ")"
 
@@ -64,9 +64,17 @@ let rec string_of_expr (e: expr) : string =
   | VecDim e -> "VecDim(" ^ string_of_expr e ^ ")"
   | _ -> failwith "precondition violated"
 
-let () =
-  let input = read_line () in
-  let ast = parse input in
-  print_endline (string_of_expr ast)
-
+let rec repl () =
+  try
+    let input = read_line () in
+    if input = "exit" then () (* Allows user to exit gracefully *)
+    else (
+      let ast = parse input in
+      print_endline (string_of_expr ast);
+      repl ()  (* Recursively call repl to keep reading input *)
+    )
+  with
+    End_of_file -> ()  (* Stop reading on EOF *)
+  | Parsing.Parse_error -> print_endline "Syntax error"; repl() 
+let () = repl ()  (* Start the REPL loop *)
 
