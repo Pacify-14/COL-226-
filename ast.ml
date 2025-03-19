@@ -18,7 +18,7 @@ type expr =
   | Binop of bop * expr * expr 
   | Inp of string
   | Print of string 
-  | Assign of string * expr      
+  | Assign of expr * expr      
   | Bool of bool
   | Boolop of boolop * expr * expr
   | IfElse of expr * expr * expr 

@@ -63,7 +63,7 @@ expr:
 | NOT expr {Boolop (Not, $2, Bool false) }
 | IF expr THEN expr ELSE expr { IfElse($2, $4, $6) } 
 | IDENT { Var $1 } 
-| IDENT ;ASSIGN ; expr { Assign($1, $3) }
+| expr ;ASSIGN ; expr { Assign($1, $3) }
 | LPAREN expr RPAREN { Paren($2) }
 | IDENT LPAREN args RPAREN { Func($1, $3)}
 | LBRACE expr_list_semicolon RBRACE { Block($2) }
@@ -94,10 +94,13 @@ expr_list_semicolon:
 expr_list_comma:     
   | expr COMMA expr_list_comma { $1 :: $3 }
 | expr COMMA expr { [$1; $3] }
+| expr { [$1] }
+| { [] }
   ;
 mat_row_list:
     LBRACKET expr_list_semicolon RBRACKET { [$2] }  
   | LBRACKET expr_list_semicolon RBRACKET SEMICOLON mat_row_list { $2 :: $5 } 
+  | LBRACKET RBRACKET { []  }
 ;
 
 ; 
