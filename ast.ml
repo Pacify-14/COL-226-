@@ -16,8 +16,8 @@ type expr =
   | Float of float
   | String of string
   | Binop of bop * expr * expr 
-  | Inp of string
-  | Print of string 
+  | Inp of expr
+  | Print of expr 
   | Assign of expr * expr      
   | Bool of bool
   | Boolop of boolop * expr * expr

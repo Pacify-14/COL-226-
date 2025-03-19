@@ -82,6 +82,9 @@ expr:
   | MATRIX LBRACKET mat_row_list RBRACKET { Matrix($3) }
   | TRANSPOSE LPAREN expr RPAREN { Transpose($3) }
   | DETERMINANT LPAREN expr RPAREN { Det($3) }
+  | INPUT LPAREN expr RPAREN { Inp($3) } 
+  | PRINT LPAREN expr RPAREN { Print($3) }
+
 args: expr_list_comma 
     expr { $1 }
   | expr COMMA args { $1 :: $3 } 
@@ -102,5 +105,4 @@ mat_row_list:
   | LBRACKET expr_list_semicolon RBRACKET SEMICOLON mat_row_list { $2 :: $5 } 
   | LBRACKET RBRACKET { []  }
 ;
-
 ; 
