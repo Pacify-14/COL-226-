@@ -53,6 +53,15 @@ let rec string_of_expr (e: expr) : string =
 | Block(exprs) -> "{" ^ String.concat "; " (List.map string_of_expr exprs) ^ " }"
 | ForLoop (var, start_expr, end_expr, body) -> "for "^var ^ " = " ^ string_of_expr start_expr ^ " ... " ^ string_of_expr end_expr ^ " { " ^ String.concat "; " (List.map string_of_expr body) ^ " }"
 | WhileLoop (cond, body) -> "while " ^ string_of_expr cond ^ " { " ^ String.concat "; " (List.map string_of_expr body) ^ " }" 
+| Vector lst -> "Vector [" ^ String.concat ", " (List.map string_of_expr lst) ^ "]"
+  | Matrix rows -> 
+      "Matrix [" ^ String.concat "; " 
+        (List.map (fun row -> "[" ^ String.concat ", " (List.map string_of_expr row) ^ "]") rows) ^ "]"
+  | Transpose e -> "Transpose(" ^ string_of_expr e ^ ")"
+  | Det e -> "Det(" ^ string_of_expr e ^ ")"
+  | Dim1 e -> "Dim1(" ^ string_of_expr e ^ ")"
+  | Dim2 e -> "Dim2(" ^ string_of_expr e ^ ")"
+  | VecDim e -> "VecDim(" ^ string_of_expr e ^ ")"
   | _ -> failwith "precondition violated"
 
 let () =

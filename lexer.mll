@@ -58,6 +58,13 @@ rule read =
         | "for"     {FOR}
         | "while" {WHILE}
         | "..." {DOT_3}                 
+        | "dim_mat_1"       {DIM_1_M}
+        | "dim_mat_2"   {DIM_2_M}            
+       | "dim_vec"         {DIM_V}
+       | "trans_mat"     { TRANSPOSE }
+       | "Vector"        {VECTOR }
+       | "Matrix"        {MATRIX}
+       | "det_mat"       {DETERMINANT}
  
         | ident as id {IDENT id}
         | float_literal as fl {FLOAT (float_of_string fl) }
