@@ -1,0 +1,2777 @@
+   0  $accept : %entry% $end
+
+   1  prog : expr EOF
+
+   2  expr : INT
+   3       | STRING
+   4       | FLOAT
+   5       | expr PLUS expr
+   6       | expr MINUS expr
+   7       | expr MULT expr
+   8       | expr DIV expr
+   9       | expr MOD expr
+  10       | TRUE
+  11       | FALSE
+  12       | expr AND expr
+  13       | expr OR expr
+  14       | NOT expr
+  15       | IF expr THEN expr ELSE expr
+  16       | IDENT
+  17       | IDENT ASSIGN expr
+  18       | LPAREN expr RPAREN
+  19       | IDENT LPAREN args RPAREN
+  20       | LBRACE expr_list_semicolon RBRACE
+  21       | expr LT expr
+  22       | expr GT expr
+  23       | expr LE expr
+  24       | expr GE expr
+  25       | expr NE expr
+  26       | expr EQUAL expr
+  27       | WHILE expr LBRACE expr_list_semicolon RBRACE
+  28       | FOR IDENT ASSIGN INT DOT_3 INT LBRACE expr_list_semicolon RBRACE
+  29       | DIM_1_M LPAREN expr RPAREN
+  30       | DIM_2_M LPAREN expr RPAREN
+  31       | DIM_V LPAREN expr RPAREN
+  32       | VECTOR LBRACKET expr_list_comma RBRACKET
+  33       | MATRIX LBRACKET mat_row_list RBRACKET
+  34       | TRANSPOSE LPAREN expr RPAREN
+  35       | DETERMINANT LPAREN expr RPAREN
+
+  36  args : expr_list_comma expr
+  37       | expr COMMA args
+
+  38  expr_list_semicolon : expr SEMICOLON expr_list_semicolon
+  39                      | expr SEMICOLON
+
+  40  expr_list_comma : expr COMMA expr_list_comma
+  41                  | expr COMMA expr
+
+  42  mat_row_list : expr_list_semicolon
+  43               | expr_list_semicolon SEMICOLON mat_row_list
+
+  44  %entry% : '\001' prog
+
+state 0
+	$accept : . %entry% $end  (0)
+
+	'\001'  shift 1
+	.  error
+
+	%entry%  goto 2
+
+
+state 1
+	%entry% : '\001' . prog  (44)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 22
+	prog  goto 23
+
+
+state 2
+	$accept : %entry% . $end  (0)
+
+	$end  accept
+
+
+state 3
+	expr : INT .  (2)
+
+	.  reduce 2
+
+
+state 4
+	expr : IF . expr THEN expr ELSE expr  (15)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 24
+
+
+state 5
+	expr : FOR . IDENT ASSIGN INT DOT_3 INT LBRACE expr_list_semicolon RBRACE  (28)
+
+	IDENT  shift 25
+	.  error
+
+
+state 6
+	expr : WHILE . expr LBRACE expr_list_semicolon RBRACE  (27)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 26
+
+
+state 7
+	expr : TRUE .  (10)
+
+	.  reduce 10
+
+
+state 8
+	expr : FALSE .  (11)
+
+	.  reduce 11
+
+
+state 9
+	expr : VECTOR . LBRACKET expr_list_comma RBRACKET  (32)
+
+	LBRACKET  shift 27
+	.  error
+
+
+state 10
+	expr : MATRIX . LBRACKET mat_row_list RBRACKET  (33)
+
+	LBRACKET  shift 28
+	.  error
+
+
+state 11
+	expr : TRANSPOSE . LPAREN expr RPAREN  (34)
+
+	LPAREN  shift 29
+	.  error
+
+
+state 12
+	expr : DETERMINANT . LPAREN expr RPAREN  (35)
+
+	LPAREN  shift 30
+	.  error
+
+
+state 13
+	expr : DIM_V . LPAREN expr RPAREN  (31)
+
+	LPAREN  shift 31
+	.  error
+
+
+state 14
+	expr : DIM_1_M . LPAREN expr RPAREN  (29)
+
+	LPAREN  shift 32
+	.  error
+
+
+state 15
+	expr : DIM_2_M . LPAREN expr RPAREN  (30)
+
+	LPAREN  shift 33
+	.  error
+
+
+state 16
+	expr : NOT . expr  (14)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 34
+
+
+state 17
+	expr : LPAREN . expr RPAREN  (18)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 35
+
+
+state 18
+	expr : LBRACE . expr_list_semicolon RBRACE  (20)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 36
+	expr_list_semicolon  goto 37
+
+
+state 19
+	expr : FLOAT .  (4)
+
+	.  reduce 4
+
+
+state 20
+	expr : STRING .  (3)
+
+	.  reduce 3
+
+
+21: shift/reduce conflict (shift 39, reduce 16) on LPAREN
+state 21
+	expr : IDENT .  (16)
+	expr : IDENT . ASSIGN expr  (17)
+	expr : IDENT . LPAREN args RPAREN  (19)
+
+	ASSIGN  shift 38
+	LPAREN  shift 39
+	INT  reduce 16
+	IF  reduce 16
+	THEN  reduce 16
+	ELSE  reduce 16
+	FOR  reduce 16
+	WHILE  reduce 16
+	TRUE  reduce 16
+	FALSE  reduce 16
+	VECTOR  reduce 16
+	MATRIX  reduce 16
+	TRANSPOSE  reduce 16
+	DETERMINANT  reduce 16
+	DIM_V  reduce 16
+	DIM_1_M  reduce 16
+	DIM_2_M  reduce 16
+	EQUAL  reduce 16
+	LT  reduce 16
+	GT  reduce 16
+	LE  reduce 16
+	GE  reduce 16
+	NE  reduce 16
+	NOT  reduce 16
+	AND  reduce 16
+	OR  reduce 16
+	RPAREN  reduce 16
+	RBRACKET  reduce 16
+	LBRACE  reduce 16
+	COMMA  reduce 16
+	SEMICOLON  reduce 16
+	EOF  reduce 16
+	PLUS  reduce 16
+	MINUS  reduce 16
+	MULT  reduce 16
+	DIV  reduce 16
+	MOD  reduce 16
+	FLOAT  reduce 16
+	STRING  reduce 16
+	IDENT  reduce 16
+
+
+state 22
+	prog : expr . EOF  (1)
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	EOF  shift 48
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 23
+	%entry% : '\001' prog .  (44)
+
+	.  reduce 44
+
+
+state 24
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : IF expr . THEN expr ELSE expr  (15)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	THEN  shift 54
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 25
+	expr : FOR IDENT . ASSIGN INT DOT_3 INT LBRACE expr_list_semicolon RBRACE  (28)
+
+	ASSIGN  shift 55
+	.  error
+
+
+state 26
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	expr : WHILE expr . LBRACE expr_list_semicolon RBRACE  (27)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	LBRACE  shift 56
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 27
+	expr : VECTOR LBRACKET . expr_list_comma RBRACKET  (32)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 57
+	expr_list_comma  goto 58
+
+
+state 28
+	expr : MATRIX LBRACKET . mat_row_list RBRACKET  (33)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 36
+	expr_list_semicolon  goto 59
+	mat_row_list  goto 60
+
+
+state 29
+	expr : TRANSPOSE LPAREN . expr RPAREN  (34)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 61
+
+
+state 30
+	expr : DETERMINANT LPAREN . expr RPAREN  (35)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 62
+
+
+state 31
+	expr : DIM_V LPAREN . expr RPAREN  (31)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 63
+
+
+state 32
+	expr : DIM_1_M LPAREN . expr RPAREN  (29)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 64
+
+
+state 33
+	expr : DIM_2_M LPAREN . expr RPAREN  (30)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 65
+
+
+state 34
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : NOT expr .  (14)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 14
+	IF  reduce 14
+	THEN  reduce 14
+	ELSE  reduce 14
+	FOR  reduce 14
+	WHILE  reduce 14
+	TRUE  reduce 14
+	FALSE  reduce 14
+	VECTOR  reduce 14
+	MATRIX  reduce 14
+	TRANSPOSE  reduce 14
+	DETERMINANT  reduce 14
+	DIM_V  reduce 14
+	DIM_1_M  reduce 14
+	DIM_2_M  reduce 14
+	NOT  reduce 14
+	AND  reduce 14
+	OR  reduce 14
+	LPAREN  reduce 14
+	RPAREN  reduce 14
+	RBRACKET  reduce 14
+	LBRACE  reduce 14
+	COMMA  reduce 14
+	SEMICOLON  reduce 14
+	EOF  reduce 14
+	FLOAT  reduce 14
+	STRING  reduce 14
+	IDENT  reduce 14
+
+
+state 35
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : LPAREN expr . RPAREN  (18)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	RPAREN  shift 66
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 36
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	expr_list_semicolon : expr . SEMICOLON expr_list_semicolon  (38)
+	expr_list_semicolon : expr . SEMICOLON  (39)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	SEMICOLON  shift 67
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 37
+	expr : LBRACE expr_list_semicolon . RBRACE  (20)
+
+	RBRACE  shift 68
+	.  error
+
+
+state 38
+	expr : IDENT ASSIGN . expr  (17)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 69
+
+
+state 39
+	expr : IDENT LPAREN . args RPAREN  (19)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	args  goto 70
+	expr  goto 71
+	expr_list_comma  goto 72
+
+
+state 40
+	expr : expr EQUAL . expr  (26)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 73
+
+
+state 41
+	expr : expr LT . expr  (21)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 74
+
+
+state 42
+	expr : expr GT . expr  (22)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 75
+
+
+state 43
+	expr : expr LE . expr  (23)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 76
+
+
+state 44
+	expr : expr GE . expr  (24)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 77
+
+
+state 45
+	expr : expr NE . expr  (25)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 78
+
+
+state 46
+	expr : expr AND . expr  (12)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 79
+
+
+state 47
+	expr : expr OR . expr  (13)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 80
+
+
+state 48
+	prog : expr EOF .  (1)
+
+	.  reduce 1
+
+
+state 49
+	expr : expr PLUS . expr  (5)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 81
+
+
+state 50
+	expr : expr MINUS . expr  (6)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 82
+
+
+state 51
+	expr : expr MULT . expr  (7)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 83
+
+
+state 52
+	expr : expr DIV . expr  (8)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 84
+
+
+state 53
+	expr : expr MOD . expr  (9)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 85
+
+
+state 54
+	expr : IF expr THEN . expr ELSE expr  (15)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 86
+
+
+state 55
+	expr : FOR IDENT ASSIGN . INT DOT_3 INT LBRACE expr_list_semicolon RBRACE  (28)
+
+	INT  shift 87
+	.  error
+
+
+state 56
+	expr : WHILE expr LBRACE . expr_list_semicolon RBRACE  (27)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 36
+	expr_list_semicolon  goto 88
+
+
+state 57
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	expr_list_comma : expr . COMMA expr_list_comma  (40)
+	expr_list_comma : expr . COMMA expr  (41)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	COMMA  shift 89
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 58
+	expr : VECTOR LBRACKET expr_list_comma . RBRACKET  (32)
+
+	RBRACKET  shift 90
+	.  error
+
+
+state 59
+	mat_row_list : expr_list_semicolon .  (42)
+	mat_row_list : expr_list_semicolon . SEMICOLON mat_row_list  (43)
+
+	SEMICOLON  shift 91
+	RBRACKET  reduce 42
+
+
+state 60
+	expr : MATRIX LBRACKET mat_row_list . RBRACKET  (33)
+
+	RBRACKET  shift 92
+	.  error
+
+
+state 61
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	expr : TRANSPOSE LPAREN expr . RPAREN  (34)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	RPAREN  shift 93
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 62
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	expr : DETERMINANT LPAREN expr . RPAREN  (35)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	RPAREN  shift 94
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 63
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	expr : DIM_V LPAREN expr . RPAREN  (31)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	RPAREN  shift 95
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 64
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	expr : DIM_1_M LPAREN expr . RPAREN  (29)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	RPAREN  shift 96
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 65
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	expr : DIM_2_M LPAREN expr . RPAREN  (30)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	RPAREN  shift 97
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 66
+	expr : LPAREN expr RPAREN .  (18)
+
+	.  reduce 18
+
+
+state 67
+	expr_list_semicolon : expr SEMICOLON . expr_list_semicolon  (38)
+	expr_list_semicolon : expr SEMICOLON .  (39)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	RBRACKET  reduce 39
+	RBRACE  reduce 39
+	SEMICOLON  reduce 39
+
+	expr  goto 36
+	expr_list_semicolon  goto 98
+
+
+state 68
+	expr : LBRACE expr_list_semicolon RBRACE .  (20)
+
+	.  reduce 20
+
+
+state 69
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : IDENT ASSIGN expr .  (17)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 17
+	IF  reduce 17
+	THEN  reduce 17
+	ELSE  reduce 17
+	FOR  reduce 17
+	WHILE  reduce 17
+	TRUE  reduce 17
+	FALSE  reduce 17
+	VECTOR  reduce 17
+	MATRIX  reduce 17
+	TRANSPOSE  reduce 17
+	DETERMINANT  reduce 17
+	DIM_V  reduce 17
+	DIM_1_M  reduce 17
+	DIM_2_M  reduce 17
+	NOT  reduce 17
+	LPAREN  reduce 17
+	RPAREN  reduce 17
+	RBRACKET  reduce 17
+	LBRACE  reduce 17
+	COMMA  reduce 17
+	SEMICOLON  reduce 17
+	EOF  reduce 17
+	FLOAT  reduce 17
+	STRING  reduce 17
+	IDENT  reduce 17
+
+
+state 70
+	expr : IDENT LPAREN args . RPAREN  (19)
+
+	RPAREN  shift 99
+	.  error
+
+
+state 71
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	args : expr . COMMA args  (37)
+	expr_list_comma : expr . COMMA expr_list_comma  (40)
+	expr_list_comma : expr . COMMA expr  (41)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	COMMA  shift 100
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 72
+	args : expr_list_comma . expr  (36)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 101
+
+
+state 73
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	expr : expr EQUAL expr .  (26)
+
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 26
+	IF  reduce 26
+	THEN  reduce 26
+	ELSE  reduce 26
+	FOR  reduce 26
+	WHILE  reduce 26
+	TRUE  reduce 26
+	FALSE  reduce 26
+	VECTOR  reduce 26
+	MATRIX  reduce 26
+	TRANSPOSE  reduce 26
+	DETERMINANT  reduce 26
+	DIM_V  reduce 26
+	DIM_1_M  reduce 26
+	DIM_2_M  reduce 26
+	EQUAL  reduce 26
+	NE  reduce 26
+	NOT  reduce 26
+	AND  reduce 26
+	OR  reduce 26
+	LPAREN  reduce 26
+	RPAREN  reduce 26
+	RBRACKET  reduce 26
+	LBRACE  reduce 26
+	COMMA  reduce 26
+	SEMICOLON  reduce 26
+	EOF  reduce 26
+	FLOAT  reduce 26
+	STRING  reduce 26
+	IDENT  reduce 26
+
+
+state 74
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr LT expr .  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 21
+	IF  reduce 21
+	THEN  reduce 21
+	ELSE  reduce 21
+	FOR  reduce 21
+	WHILE  reduce 21
+	TRUE  reduce 21
+	FALSE  reduce 21
+	VECTOR  reduce 21
+	MATRIX  reduce 21
+	TRANSPOSE  reduce 21
+	DETERMINANT  reduce 21
+	DIM_V  reduce 21
+	DIM_1_M  reduce 21
+	DIM_2_M  reduce 21
+	EQUAL  reduce 21
+	LT  reduce 21
+	GT  reduce 21
+	LE  reduce 21
+	GE  reduce 21
+	NE  reduce 21
+	NOT  reduce 21
+	AND  reduce 21
+	OR  reduce 21
+	LPAREN  reduce 21
+	RPAREN  reduce 21
+	RBRACKET  reduce 21
+	LBRACE  reduce 21
+	COMMA  reduce 21
+	SEMICOLON  reduce 21
+	EOF  reduce 21
+	FLOAT  reduce 21
+	STRING  reduce 21
+	IDENT  reduce 21
+
+
+state 75
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr GT expr .  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 22
+	IF  reduce 22
+	THEN  reduce 22
+	ELSE  reduce 22
+	FOR  reduce 22
+	WHILE  reduce 22
+	TRUE  reduce 22
+	FALSE  reduce 22
+	VECTOR  reduce 22
+	MATRIX  reduce 22
+	TRANSPOSE  reduce 22
+	DETERMINANT  reduce 22
+	DIM_V  reduce 22
+	DIM_1_M  reduce 22
+	DIM_2_M  reduce 22
+	EQUAL  reduce 22
+	LT  reduce 22
+	GT  reduce 22
+	LE  reduce 22
+	GE  reduce 22
+	NE  reduce 22
+	NOT  reduce 22
+	AND  reduce 22
+	OR  reduce 22
+	LPAREN  reduce 22
+	RPAREN  reduce 22
+	RBRACKET  reduce 22
+	LBRACE  reduce 22
+	COMMA  reduce 22
+	SEMICOLON  reduce 22
+	EOF  reduce 22
+	FLOAT  reduce 22
+	STRING  reduce 22
+	IDENT  reduce 22
+
+
+state 76
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr LE expr .  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 23
+	IF  reduce 23
+	THEN  reduce 23
+	ELSE  reduce 23
+	FOR  reduce 23
+	WHILE  reduce 23
+	TRUE  reduce 23
+	FALSE  reduce 23
+	VECTOR  reduce 23
+	MATRIX  reduce 23
+	TRANSPOSE  reduce 23
+	DETERMINANT  reduce 23
+	DIM_V  reduce 23
+	DIM_1_M  reduce 23
+	DIM_2_M  reduce 23
+	EQUAL  reduce 23
+	LT  reduce 23
+	GT  reduce 23
+	LE  reduce 23
+	GE  reduce 23
+	NE  reduce 23
+	NOT  reduce 23
+	AND  reduce 23
+	OR  reduce 23
+	LPAREN  reduce 23
+	RPAREN  reduce 23
+	RBRACKET  reduce 23
+	LBRACE  reduce 23
+	COMMA  reduce 23
+	SEMICOLON  reduce 23
+	EOF  reduce 23
+	FLOAT  reduce 23
+	STRING  reduce 23
+	IDENT  reduce 23
+
+
+state 77
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr GE expr .  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 24
+	IF  reduce 24
+	THEN  reduce 24
+	ELSE  reduce 24
+	FOR  reduce 24
+	WHILE  reduce 24
+	TRUE  reduce 24
+	FALSE  reduce 24
+	VECTOR  reduce 24
+	MATRIX  reduce 24
+	TRANSPOSE  reduce 24
+	DETERMINANT  reduce 24
+	DIM_V  reduce 24
+	DIM_1_M  reduce 24
+	DIM_2_M  reduce 24
+	EQUAL  reduce 24
+	LT  reduce 24
+	GT  reduce 24
+	LE  reduce 24
+	GE  reduce 24
+	NE  reduce 24
+	NOT  reduce 24
+	AND  reduce 24
+	OR  reduce 24
+	LPAREN  reduce 24
+	RPAREN  reduce 24
+	RBRACKET  reduce 24
+	LBRACE  reduce 24
+	COMMA  reduce 24
+	SEMICOLON  reduce 24
+	EOF  reduce 24
+	FLOAT  reduce 24
+	STRING  reduce 24
+	IDENT  reduce 24
+
+
+state 78
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr NE expr .  (25)
+	expr : expr . EQUAL expr  (26)
+
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 25
+	IF  reduce 25
+	THEN  reduce 25
+	ELSE  reduce 25
+	FOR  reduce 25
+	WHILE  reduce 25
+	TRUE  reduce 25
+	FALSE  reduce 25
+	VECTOR  reduce 25
+	MATRIX  reduce 25
+	TRANSPOSE  reduce 25
+	DETERMINANT  reduce 25
+	DIM_V  reduce 25
+	DIM_1_M  reduce 25
+	DIM_2_M  reduce 25
+	EQUAL  reduce 25
+	NE  reduce 25
+	NOT  reduce 25
+	AND  reduce 25
+	OR  reduce 25
+	LPAREN  reduce 25
+	RPAREN  reduce 25
+	RBRACKET  reduce 25
+	LBRACE  reduce 25
+	COMMA  reduce 25
+	SEMICOLON  reduce 25
+	EOF  reduce 25
+	FLOAT  reduce 25
+	STRING  reduce 25
+	IDENT  reduce 25
+
+
+state 79
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr AND expr .  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 12
+	IF  reduce 12
+	THEN  reduce 12
+	ELSE  reduce 12
+	FOR  reduce 12
+	WHILE  reduce 12
+	TRUE  reduce 12
+	FALSE  reduce 12
+	VECTOR  reduce 12
+	MATRIX  reduce 12
+	TRANSPOSE  reduce 12
+	DETERMINANT  reduce 12
+	DIM_V  reduce 12
+	DIM_1_M  reduce 12
+	DIM_2_M  reduce 12
+	NOT  reduce 12
+	AND  reduce 12
+	OR  reduce 12
+	LPAREN  reduce 12
+	RPAREN  reduce 12
+	RBRACKET  reduce 12
+	LBRACE  reduce 12
+	COMMA  reduce 12
+	SEMICOLON  reduce 12
+	EOF  reduce 12
+	FLOAT  reduce 12
+	STRING  reduce 12
+	IDENT  reduce 12
+
+
+state 80
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr OR expr .  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 13
+	IF  reduce 13
+	THEN  reduce 13
+	ELSE  reduce 13
+	FOR  reduce 13
+	WHILE  reduce 13
+	TRUE  reduce 13
+	FALSE  reduce 13
+	VECTOR  reduce 13
+	MATRIX  reduce 13
+	TRANSPOSE  reduce 13
+	DETERMINANT  reduce 13
+	DIM_V  reduce 13
+	DIM_1_M  reduce 13
+	DIM_2_M  reduce 13
+	NOT  reduce 13
+	OR  reduce 13
+	LPAREN  reduce 13
+	RPAREN  reduce 13
+	RBRACKET  reduce 13
+	LBRACE  reduce 13
+	COMMA  reduce 13
+	SEMICOLON  reduce 13
+	EOF  reduce 13
+	FLOAT  reduce 13
+	STRING  reduce 13
+	IDENT  reduce 13
+
+
+state 81
+	expr : expr . PLUS expr  (5)
+	expr : expr PLUS expr .  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 5
+	IF  reduce 5
+	THEN  reduce 5
+	ELSE  reduce 5
+	FOR  reduce 5
+	WHILE  reduce 5
+	TRUE  reduce 5
+	FALSE  reduce 5
+	VECTOR  reduce 5
+	MATRIX  reduce 5
+	TRANSPOSE  reduce 5
+	DETERMINANT  reduce 5
+	DIM_V  reduce 5
+	DIM_1_M  reduce 5
+	DIM_2_M  reduce 5
+	EQUAL  reduce 5
+	LT  reduce 5
+	GT  reduce 5
+	LE  reduce 5
+	GE  reduce 5
+	NE  reduce 5
+	NOT  reduce 5
+	AND  reduce 5
+	OR  reduce 5
+	LPAREN  reduce 5
+	RPAREN  reduce 5
+	RBRACKET  reduce 5
+	LBRACE  reduce 5
+	COMMA  reduce 5
+	SEMICOLON  reduce 5
+	EOF  reduce 5
+	PLUS  reduce 5
+	MINUS  reduce 5
+	FLOAT  reduce 5
+	STRING  reduce 5
+	IDENT  reduce 5
+
+
+state 82
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr MINUS expr .  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 6
+	IF  reduce 6
+	THEN  reduce 6
+	ELSE  reduce 6
+	FOR  reduce 6
+	WHILE  reduce 6
+	TRUE  reduce 6
+	FALSE  reduce 6
+	VECTOR  reduce 6
+	MATRIX  reduce 6
+	TRANSPOSE  reduce 6
+	DETERMINANT  reduce 6
+	DIM_V  reduce 6
+	DIM_1_M  reduce 6
+	DIM_2_M  reduce 6
+	EQUAL  reduce 6
+	LT  reduce 6
+	GT  reduce 6
+	LE  reduce 6
+	GE  reduce 6
+	NE  reduce 6
+	NOT  reduce 6
+	AND  reduce 6
+	OR  reduce 6
+	LPAREN  reduce 6
+	RPAREN  reduce 6
+	RBRACKET  reduce 6
+	LBRACE  reduce 6
+	COMMA  reduce 6
+	SEMICOLON  reduce 6
+	EOF  reduce 6
+	PLUS  reduce 6
+	MINUS  reduce 6
+	FLOAT  reduce 6
+	STRING  reduce 6
+	IDENT  reduce 6
+
+
+state 83
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr MULT expr .  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	.  reduce 7
+
+
+state 84
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr DIV expr .  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	.  reduce 8
+
+
+state 85
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr MOD expr .  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	.  reduce 9
+
+
+state 86
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : IF expr THEN expr . ELSE expr  (15)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	ELSE  shift 102
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	.  error
+
+
+state 87
+	expr : FOR IDENT ASSIGN INT . DOT_3 INT LBRACE expr_list_semicolon RBRACE  (28)
+
+	DOT_3  shift 103
+	.  error
+
+
+state 88
+	expr : WHILE expr LBRACE expr_list_semicolon . RBRACE  (27)
+
+	RBRACE  shift 104
+	.  error
+
+
+state 89
+	expr_list_comma : expr COMMA . expr_list_comma  (40)
+	expr_list_comma : expr COMMA . expr  (41)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 105
+	expr_list_comma  goto 106
+
+
+state 90
+	expr : VECTOR LBRACKET expr_list_comma RBRACKET .  (32)
+
+	.  reduce 32
+
+
+state 91
+	mat_row_list : expr_list_semicolon SEMICOLON . mat_row_list  (43)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 36
+	expr_list_semicolon  goto 59
+	mat_row_list  goto 107
+
+
+state 92
+	expr : MATRIX LBRACKET mat_row_list RBRACKET .  (33)
+
+	.  reduce 33
+
+
+state 93
+	expr : TRANSPOSE LPAREN expr RPAREN .  (34)
+
+	.  reduce 34
+
+
+state 94
+	expr : DETERMINANT LPAREN expr RPAREN .  (35)
+
+	.  reduce 35
+
+
+state 95
+	expr : DIM_V LPAREN expr RPAREN .  (31)
+
+	.  reduce 31
+
+
+state 96
+	expr : DIM_1_M LPAREN expr RPAREN .  (29)
+
+	.  reduce 29
+
+
+state 97
+	expr : DIM_2_M LPAREN expr RPAREN .  (30)
+
+	.  reduce 30
+
+
+state 98
+	expr_list_semicolon : expr SEMICOLON expr_list_semicolon .  (38)
+
+	.  reduce 38
+
+
+state 99
+	expr : IDENT LPAREN args RPAREN .  (19)
+
+	.  reduce 19
+
+
+state 100
+	args : expr COMMA . args  (37)
+	expr_list_comma : expr COMMA . expr_list_comma  (40)
+	expr_list_comma : expr COMMA . expr  (41)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	args  goto 108
+	expr  goto 109
+	expr_list_comma  goto 110
+
+
+state 101
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	args : expr_list_comma expr .  (36)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	RPAREN  reduce 36
+
+
+state 102
+	expr : IF expr THEN expr ELSE . expr  (15)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 111
+
+
+state 103
+	expr : FOR IDENT ASSIGN INT DOT_3 . INT LBRACE expr_list_semicolon RBRACE  (28)
+
+	INT  shift 112
+	.  error
+
+
+state 104
+	expr : WHILE expr LBRACE expr_list_semicolon RBRACE .  (27)
+
+	.  reduce 27
+
+
+state 105
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	expr_list_comma : expr . COMMA expr_list_comma  (40)
+	expr_list_comma : expr . COMMA expr  (41)
+	expr_list_comma : expr COMMA expr .  (41)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	COMMA  shift 89
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	RBRACKET  reduce 41
+
+
+state 106
+	expr_list_comma : expr COMMA expr_list_comma .  (40)
+
+	.  reduce 40
+
+
+state 107
+	mat_row_list : expr_list_semicolon SEMICOLON mat_row_list .  (43)
+
+	.  reduce 43
+
+
+state 108
+	args : expr COMMA args .  (37)
+
+	.  reduce 37
+
+
+state 109
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+	args : expr . COMMA args  (37)
+	expr_list_comma : expr . COMMA expr_list_comma  (40)
+	expr_list_comma : expr . COMMA expr  (41)
+	expr_list_comma : expr COMMA expr .  (41)
+
+	EQUAL  shift 40
+	LT  shift 41
+	GT  shift 42
+	LE  shift 43
+	GE  shift 44
+	NE  shift 45
+	AND  shift 46
+	OR  shift 47
+	COMMA  shift 100
+	PLUS  shift 49
+	MINUS  shift 50
+	MULT  shift 51
+	DIV  shift 52
+	MOD  shift 53
+	INT  reduce 41
+	IF  reduce 41
+	FOR  reduce 41
+	WHILE  reduce 41
+	TRUE  reduce 41
+	FALSE  reduce 41
+	VECTOR  reduce 41
+	MATRIX  reduce 41
+	TRANSPOSE  reduce 41
+	DETERMINANT  reduce 41
+	DIM_V  reduce 41
+	DIM_1_M  reduce 41
+	DIM_2_M  reduce 41
+	NOT  reduce 41
+	LPAREN  reduce 41
+	LBRACE  reduce 41
+	FLOAT  reduce 41
+	STRING  reduce 41
+	IDENT  reduce 41
+
+
+110: shift/reduce conflict (shift 3, reduce 40) on INT
+110: shift/reduce conflict (shift 7, reduce 40) on TRUE
+110: shift/reduce conflict (shift 8, reduce 40) on FALSE
+110: shift/reduce conflict (shift 9, reduce 40) on VECTOR
+110: shift/reduce conflict (shift 10, reduce 40) on MATRIX
+110: shift/reduce conflict (shift 11, reduce 40) on TRANSPOSE
+110: shift/reduce conflict (shift 12, reduce 40) on DETERMINANT
+110: shift/reduce conflict (shift 13, reduce 40) on DIM_V
+110: shift/reduce conflict (shift 14, reduce 40) on DIM_1_M
+110: shift/reduce conflict (shift 15, reduce 40) on DIM_2_M
+110: shift/reduce conflict (shift 17, reduce 40) on LPAREN
+110: shift/reduce conflict (shift 18, reduce 40) on LBRACE
+110: shift/reduce conflict (shift 19, reduce 40) on FLOAT
+110: shift/reduce conflict (shift 20, reduce 40) on STRING
+110: shift/reduce conflict (shift 21, reduce 40) on IDENT
+state 110
+	args : expr_list_comma . expr  (36)
+	expr_list_comma : expr COMMA expr_list_comma .  (40)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	NOT  reduce 40
+
+	expr  goto 101
+
+
+state 111
+	expr : expr . PLUS expr  (5)
+	expr : expr . MINUS expr  (6)
+	expr : expr . MULT expr  (7)
+	expr : expr . DIV expr  (8)
+	expr : expr . MOD expr  (9)
+	expr : expr . AND expr  (12)
+	expr : expr . OR expr  (13)
+	expr : IF expr THEN expr ELSE expr .  (15)
+	expr : expr . LT expr  (21)
+	expr : expr . GT expr  (22)
+	expr : expr . LE expr  (23)
+	expr : expr . GE expr  (24)
+	expr : expr . NE expr  (25)
+	expr : expr . EQUAL expr  (26)
+
+	.  reduce 15
+
+
+state 112
+	expr : FOR IDENT ASSIGN INT DOT_3 INT . LBRACE expr_list_semicolon RBRACE  (28)
+
+	LBRACE  shift 113
+	.  error
+
+
+state 113
+	expr : FOR IDENT ASSIGN INT DOT_3 INT LBRACE . expr_list_semicolon RBRACE  (28)
+
+	INT  shift 3
+	IF  shift 4
+	FOR  shift 5
+	WHILE  shift 6
+	TRUE  shift 7
+	FALSE  shift 8
+	VECTOR  shift 9
+	MATRIX  shift 10
+	TRANSPOSE  shift 11
+	DETERMINANT  shift 12
+	DIM_V  shift 13
+	DIM_1_M  shift 14
+	DIM_2_M  shift 15
+	NOT  shift 16
+	LPAREN  shift 17
+	LBRACE  shift 18
+	FLOAT  shift 19
+	STRING  shift 20
+	IDENT  shift 21
+	.  error
+
+	expr  goto 36
+	expr_list_semicolon  goto 114
+
+
+state 114
+	expr : FOR IDENT ASSIGN INT DOT_3 INT LBRACE expr_list_semicolon . RBRACE  (28)
+
+	RBRACE  shift 115
+	.  error
+
+
+state 115
+	expr : FOR IDENT ASSIGN INT DOT_3 INT LBRACE expr_list_semicolon RBRACE .  (28)
+
+	.  reduce 28
+
+
+State 21 contains 1 shift/reduce conflict.
+State 110 contains 15 shift/reduce conflicts.
+
+
+49 terminals, 8 nonterminals
+45 grammar rules, 116 states

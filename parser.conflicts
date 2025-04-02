@@ -1,0 +1,58 @@
+
+** Conflict (shift/reduce) in state 77.
+** Tokens involved: VECTOR TRUE TRANSPOSE STRING MATRIX LPAREN LBRACE INT IDENT FLOAT FALSE DIM_V DIM_2_M DIM_1_M DETERMINANT
+** The following explanations concentrate on token VECTOR.
+** This state is reached from prog after reading:
+
+IDENT LPAREN expr COMMA expr_list_comma
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+prog 
+expr EOF 
+IDENT LPAREN args RPAREN 
+             (?)
+
+** In state 77, looking ahead at VECTOR, shifting is permitted
+** because of the following sub-derivation:
+
+expr COMMA args 
+           expr_list_comma expr 
+                           . VECTOR LBRACKET expr_list_comma RBRACKET 
+
+** In state 77, looking ahead at VECTOR, reducing production
+** expr_list_comma -> expr COMMA expr_list_comma
+** is permitted because of the following sub-derivation:
+
+expr_list_comma expr // lookahead token appears because expr can begin with VECTOR
+expr COMMA expr_list_comma . 
+
+** Conflict (shift/reduce) in state 15.
+** Token involved: LPAREN
+** This state is reached from prog after reading:
+
+IDENT LPAREN expr COMMA IDENT
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+prog 
+expr EOF 
+IDENT LPAREN args RPAREN 
+             (?)
+
+** In state 15, looking ahead at LPAREN, reducing production
+** expr -> IDENT
+** is permitted because of the following sub-derivation:
+
+expr_list_comma expr // lookahead token appears because expr can begin with LPAREN
+expr COMMA expr // lookahead token is inherited
+           IDENT . 
+
+** In state 15, looking ahead at LPAREN, shifting is permitted
+** because of the following sub-derivation:
+
+expr_list_comma expr 
+expr COMMA expr 
+           IDENT . LPAREN args RPAREN 
